@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-first-app  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-first-app
+  template:
+    metadata:
+      labels:
+        app: hello-first-app
+    spec:
+      containers:
+      - name: hello-first-app
+        image: hashicorp/http-echo
+        args:
+          - "-text=Hello To The First App"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-first-app
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5678
+  selector:
+    app: hello-first-app

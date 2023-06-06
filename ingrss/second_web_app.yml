@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-second-app 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-second-app
+  template:
+    metadata:
+      labels:
+        app: hello-second-app
+    spec:
+      containers:
+      - name: hello-second-app
+        image: hashicorp/http-echo
+        args:
+          - "-text=Hello To The Second App"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-second-app
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5678
+  selector:
+    app: hello-second-app
